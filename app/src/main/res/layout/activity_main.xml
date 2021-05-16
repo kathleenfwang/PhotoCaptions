@@ -14,7 +14,7 @@
         android:layout_marginTop="40dp"
         android:text="Choose Image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.272"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Submit"
+        android:text="Take Photo"
         app:backgroundTint="#8BC34A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,14 +65,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_userImg" />
 
-    <Button
-        android:id="@+id/btn_takeImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TAKE PHOTO"
-        app:backgroundTint="#FF9800"
-        app:layout_constraintBottom_toTopOf="@+id/iv_userImg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_choose_img"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
