@@ -1,30 +1,44 @@
 package edu.foothill.kwang.photostore
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.provider.MediaStore
 import android.widget.Button
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+
 
 class MainActivity : AppCompatActivity() {
+    lateinit var imageView: ImageView
+    private var imageUri: Uri? = null
+    private val SELECT_PICTURE = 100
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val PICK_PHOTO_CODE = 4
         val choose_btn = findViewById<Button>(R.id.btn_choose_img)
+        imageView = findViewById<ImageView>(R.id.iv_userImg)
         choose_btn.setOnClickListener {
-            Log.i("Main", "Open image picker")
-            val imagePickerIntent = Intent(Intent.ACTION_GET_CONTENT)
-            imagePickerIntent.type = "image/*"
-            if (imagePickerIntent.resolveActivity(packageManager) !== null) {
-                startActivityForResult(imagePickerIntent, PICK_PHOTO_CODE)
-            }
-
+            imageChooser()
         }
     }
+    fun imageChooser() {
 
+        // create an instance of the
+        // intent of the type image
+        val i = Intent()
+        i.type = "image/*"
+        i.action = Intent.ACTION_GET_CONTENT
+
+        // pass the constant to compare it
+        // with the returned requestCode
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE)
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == SELECT_PICTURE) {
+            imageUri = data?.data
+            imageView.setImageURI(imageUri)
+        }
     }
-
 }
