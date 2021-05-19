@@ -1,10 +1,8 @@
 package edu.foothill.kwang.photostore
 
-import android.R.attr.bitmap
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Bitmap.CompressFormat
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
@@ -14,10 +12,15 @@ import android.util.Log
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 
 
+private const val COMPVISION_URL = "https://kathleencompvision.cognitiveservices.azure.com/"
 class MainActivity : AppCompatActivity() {
+
+    val REACT_APP_CV_AZURE_KEY = "847a34790f094bbb897d84b1f258ac2c"
     lateinit var imageView: ImageView
     lateinit var caption: EditText
     lateinit var tags: TextView
@@ -38,6 +41,12 @@ class MainActivity : AppCompatActivity() {
         take_photo_btn.setOnClickListener {
             takePhoto()
         }
+        val retrofit: Retrofit = Retrofit.Builder()
+                .baseUrl(COMPVISION_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        val imageService = retrofit.create(CVService::class.java)
+        imageService.searchImages("Tags,Description")
     }
     private fun imageChooser() {
         // create an instance of the
