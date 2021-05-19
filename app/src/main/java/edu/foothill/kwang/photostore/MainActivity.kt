@@ -12,6 +12,9 @@ import android.util.Log
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
@@ -46,7 +49,18 @@ class MainActivity : AppCompatActivity() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         val imageService = retrofit.create(CVService::class.java)
-        imageService.searchImages("Tags,Description")
+        imageService.searchImages("Tags,Description").enqueue(object : Callback<Any>
+        {
+            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onFailure(call: Call<Any>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
     }
     private fun imageChooser() {
         // create an instance of the
