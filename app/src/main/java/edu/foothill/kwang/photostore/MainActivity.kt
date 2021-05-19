@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream
 
 
 class MainActivity : AppCompatActivity() {
+
     lateinit var imageView: ImageView
     lateinit var caption: EditText
     lateinit var tags: TextView
@@ -42,17 +43,36 @@ class MainActivity : AppCompatActivity() {
         take_photo_btn.setOnClickListener {
             takePhoto()
         }
-        addImage()
-    }
-    private fun addImage() {
-        val apiService = RestApiService()
-        val imageInfo = Image(mUrl = "https://all-americaselections.org/wp-content/uploads/2019/06/Watermelon-Mambo.jpg" )
+        addDummyUser()
+        val image = Image("https://all-americaselections.org/wp-content/uploads/2019/06/Watermelon-Mambo.jpg")
+//        val retrofit: Retrofit = Retrofit.Builder()
+//                .baseUrl(COMPVISION_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build()
+//        val imageService = retrofit.create(CVService::class.java)
+//        imageService.getImage(CV_AZURE_KEY,"Tags",image).enqueue(object : Callback<Image>
+//        {
+//            override fun onResponse(call: Call<Image>, response: Response<Image>) {
+//                Log.d("main", "response")
+//            }
+//
+//            override fun onFailure(call: Call<Image>, t: Throwable) {
+//                Log.d("main", "failure")
+//            }
+//
+//
+//        })
 
-        apiService.addImage(imageInfo) {
-            if (it != null) {
-                Log.d("main", it.toString())
+    }
+    private fun addDummyUser() {
+        val apiService = RestApiService()
+        val userInfo = Image(mUrl = "https://all-americaselections.org/wp-content/uploads/2019/06/Watermelon-Mambo.jpg" )
+
+        apiService.addImage(userInfo) {
+            if (it?.mUrl != null) {
+                Log.d("main", "added image")
             } else {
-                Log.d("main","Error")
+                Log.d("main","Error registering new user")
             }
         }
     }

@@ -1,2 +1,0 @@
-edu/foothill/kwang/photostore/BuildConfig.java
- edu.foothill.kwang.photostore.BuildConfig
