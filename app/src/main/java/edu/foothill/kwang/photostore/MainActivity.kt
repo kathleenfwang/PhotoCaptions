@@ -12,17 +12,18 @@ import android.util.Log
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
-
+import kotlin.reflect.typeOf
 
 
 class MainActivity : AppCompatActivity() {
-
+    val sampleimage = "https://static.toiimg.com/photo/msid-68374658/68374658.jpg?2359844"
     lateinit var imageView: ImageView
     lateinit var caption: EditText
     lateinit var tags: TextView
@@ -37,6 +38,10 @@ class MainActivity : AppCompatActivity() {
         caption = findViewById(R.id.et_caption)
         tags = findViewById(R.id.tv_tags)
         imageView = findViewById<ImageView>(R.id.iv_userImg)
+        Picasso
+                .get()
+                .load(sampleimage)
+                .into(imageView);
         choose_btn.setOnClickListener {
             imageChooser()
         }
@@ -48,15 +53,32 @@ class MainActivity : AppCompatActivity() {
     }
     private fun getImageData() {
         val apiService = RestApiService()
-        val userInfo = Image(mUrl = "https://all-americaselections.org/wp-content/uploads/2019/06/Watermelon-Mambo.jpg" )
+        val userInfo = Image(mUrl = sampleimage )
         apiService.addImage(userInfo) {
             if (it != null) {
-                Log.d("main", "success from main!")
-            }
-            else {
+                Log.d("main", it.description.toString())
+                // cannot put .text for edit text editText.text = "some value" //Won't work,
+                val captionText = it.description["captions"].toString()
+                val end = captionText.indexOf(",") - 1
+                val start = captionText.indexOf("=") + 1
+                val captionTextSliced = captionText.slice(start..end)
 
+                caption.setText(captionTextSliced)
+                val tagText = getTags(it.tags).toString()
+                val lenTagText =tagText.slice(1..tagText.length-2)
+                tags.text = "$lenTagText"
             }
         }
+    }
+
+    private fun getTags(tags: List<Tag>): MutableList<String> {
+        val tagArray = mutableListOf<String>()
+        for (i in 0..tags.size-1)
+        {
+            if (tags[i].confidence > 0.90)
+            tagArray.add("#${tags[i].name}")
+        }
+        return tagArray
     }
 
     private fun imageChooser() {
