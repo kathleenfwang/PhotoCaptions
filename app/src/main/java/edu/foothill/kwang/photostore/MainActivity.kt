@@ -50,10 +50,11 @@ class MainActivity : AppCompatActivity() {
         val apiService = RestApiService()
         val userInfo = Image(mUrl = "https://all-americaselections.org/wp-content/uploads/2019/06/Watermelon-Mambo.jpg" )
         apiService.addImage(userInfo) {
-            if (it?.mUrl != null) {
-                Log.d("main", "added image")
-            } else {
-                Log.d("main","Error registering new user")
+            if (it != null) {
+                Log.d("main", "success from main!")
+            }
+            else {
+
             }
         }
     }

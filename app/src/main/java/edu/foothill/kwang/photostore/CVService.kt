@@ -14,7 +14,7 @@ public interface CVService {
     fun getImage(
         @Header("Ocp-Apim-Subscription-Key") authHeader: String,
         @Query("visualFeatures") searchTerm: String,
-        @Body image: Image ): Call<Any>
+        @Body image: Image ): Call<ImageResult>
 }
 
 
