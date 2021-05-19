@@ -1,13 +1,19 @@
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
 }
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
+        buildConfigField("String", "CV_AZURE_KEY", apikeyProperties['CV_AZURE_KEY'])
+        buildConfigField("String", "COMPVISION_URL", apikeyProperties['COMPVISION_URL'])
         applicationId "edu.foothill.kwang.photostore"
         minSdkVersion 19
         targetSdkVersion 30

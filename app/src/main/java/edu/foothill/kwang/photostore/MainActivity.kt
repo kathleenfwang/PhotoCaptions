@@ -20,10 +20,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 
 
-private const val COMPVISION_URL = "https://kathleencompvision.cognitiveservices.azure.com/"
+
 class MainActivity : AppCompatActivity() {
 
-    val CV_AZURE_KEY = "847a34790f094bbb897d84b1f258ac2c"
     lateinit var imageView: ImageView
     lateinit var caption: EditText
     lateinit var tags: TextView
