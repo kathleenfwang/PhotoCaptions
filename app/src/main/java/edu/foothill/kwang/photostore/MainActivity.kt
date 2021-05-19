@@ -23,7 +23,7 @@ import java.io.ByteArrayOutputStream
 private const val COMPVISION_URL = "https://kathleencompvision.cognitiveservices.azure.com/"
 class MainActivity : AppCompatActivity() {
 
-    val REACT_APP_CV_AZURE_KEY = "847a34790f094bbb897d84b1f258ac2c"
+    val CV_AZURE_KEY = "847a34790f094bbb897d84b1f258ac2c"
     lateinit var imageView: ImageView
     lateinit var caption: EditText
     lateinit var tags: TextView
@@ -44,24 +44,40 @@ class MainActivity : AppCompatActivity() {
         take_photo_btn.setOnClickListener {
             takePhoto()
         }
-        val retrofit: Retrofit = Retrofit.Builder()
-                .baseUrl(COMPVISION_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val imageService = retrofit.create(CVService::class.java)
-        imageService.searchImages("Tags,Description").enqueue(object : Callback<Any>
-        {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
+        addDummyUser()
+        val image = Image("https://all-americaselections.org/wp-content/uploads/2019/06/Watermelon-Mambo.jpg")
+//        val retrofit: Retrofit = Retrofit.Builder()
+//                .baseUrl(COMPVISION_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build()
+//        val imageService = retrofit.create(CVService::class.java)
+//        imageService.getImage(CV_AZURE_KEY,"Tags",image).enqueue(object : Callback<Image>
+//        {
+//            override fun onResponse(call: Call<Image>, response: Response<Image>) {
+//                Log.d("main", "response")
+//            }
+//
+//            override fun onFailure(call: Call<Image>, t: Throwable) {
+//                Log.d("main", "failure")
+//            }
+//
+//
+//        })
 
     }
+    private fun addDummyUser() {
+        val apiService = RestApiService()
+        val userInfo = Image(mUrl = "https://all-americaselections.org/wp-content/uploads/2019/06/Watermelon-Mambo.jpg" )
+
+        apiService.addImage(userInfo) {
+            if (it?.mUrl != null) {
+                Log.d("main", "added image")
+            } else {
+                Log.d("main","Error registering new user")
+            }
+        }
+    }
+
     private fun imageChooser() {
         // create an instance of the
         // intent of the type image
@@ -106,3 +122,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+

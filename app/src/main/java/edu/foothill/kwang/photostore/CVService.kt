@@ -1,19 +1,20 @@
 package edu.foothill.kwang.photostore
 
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.User
-import okhttp3.Call
-import retrofit2.http.GET
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.Headers
 import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 
 public interface CVService {
     // Request method and URL specified in the annotation
-    @GET("analyze")
-    fun searchImages(
-        @Query("visualFeatures") searchTerm: String) :Call<Any>)
-
+    @Headers("Content-Type: application/json")
+    @POST("/vision/v2.1/analyze")
+    fun getImage(
+        @Header("Ocp-Apim-Subscription-Key") authHeader: String,
+        @Query("visualFeatures") searchTerm: String,
+        @Body image: Image ): Call<Any>
 }
 
 
