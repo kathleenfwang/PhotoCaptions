@@ -16,7 +16,7 @@ class RestApiService {
                     Log.d("rest api service", "failed")
                 }
                 override fun onResponse( call: Call<Any>, response: Response<Any>) {
-                    val addedUser = response.body()
+                    val addedImage = response.body()
                     Log.d("rest api service", "response")
                 }
             }

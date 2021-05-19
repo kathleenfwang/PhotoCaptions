@@ -43,31 +43,12 @@ class MainActivity : AppCompatActivity() {
         take_photo_btn.setOnClickListener {
             takePhoto()
         }
-        addDummyUser()
-        val image = Image("https://all-americaselections.org/wp-content/uploads/2019/06/Watermelon-Mambo.jpg")
-//        val retrofit: Retrofit = Retrofit.Builder()
-//                .baseUrl(COMPVISION_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build()
-//        val imageService = retrofit.create(CVService::class.java)
-//        imageService.getImage(CV_AZURE_KEY,"Tags",image).enqueue(object : Callback<Image>
-//        {
-//            override fun onResponse(call: Call<Image>, response: Response<Image>) {
-//                Log.d("main", "response")
-//            }
-//
-//            override fun onFailure(call: Call<Image>, t: Throwable) {
-//                Log.d("main", "failure")
-//            }
-//
-//
-//        })
+        getImageData()
 
     }
-    private fun addDummyUser() {
+    private fun getImageData() {
         val apiService = RestApiService()
         val userInfo = Image(mUrl = "https://all-americaselections.org/wp-content/uploads/2019/06/Watermelon-Mambo.jpg" )
-
         apiService.addImage(userInfo) {
             if (it?.mUrl != null) {
                 Log.d("main", "added image")
