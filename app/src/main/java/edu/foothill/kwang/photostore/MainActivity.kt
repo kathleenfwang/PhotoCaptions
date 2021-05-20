@@ -8,18 +8,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
-import kotlin.reflect.typeOf
 
 
 class MainActivity : AppCompatActivity() {
@@ -48,13 +43,12 @@ class MainActivity : AppCompatActivity() {
         take_photo_btn.setOnClickListener {
             takePhoto()
         }
-        getImageData()
+        getImageData(Image(mUrl = sampleimage))
 
     }
-    private fun getImageData() {
+    private fun getImageData(userImage: Image) {
         val apiService = RestApiService()
-        val userInfo = Image(mUrl = sampleimage )
-        apiService.addImage(userInfo) {
+        apiService.addImage(userImage) {
             if (it != null) {
                 Log.d("main", it.description.toString())
                 // cannot put .text for edit text editText.text = "some value" //Won't work,
@@ -62,11 +56,13 @@ class MainActivity : AppCompatActivity() {
                 val end = captionText.indexOf(",") - 1
                 val start = captionText.indexOf("=") + 1
                 val captionTextSliced = captionText.slice(start..end)
-
                 caption.setText(captionTextSliced)
                 val tagText = getTags(it.tags).toString()
-                val lenTagText =tagText.slice(1..tagText.length-2)
+                val lenTagText =tagText.slice(1..tagText.length - 2)
                 tags.text = "$lenTagText"
+            }
+            else {
+                Log.d("get Image", "Error!")
             }
         }
     }
@@ -98,21 +94,21 @@ class MainActivity : AppCompatActivity() {
             imageUri = data?.data
             Log.d("Main Gallery Photo", imageUri.toString())
             imageView.setImageURI(imageUri)
-            caption.setText("New image!!!")
-            tags.setText("Sample tags!!")
+            getImageData(Image(imageUri.toString()))
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             imageView.setImageBitmap(imageBitmap)
             val imageByteArray = imageToBitmap(imageView)
-            Log.d("Main Take Photo", imageByteArray.toString())
+            val imageAsString: String = Base64.encodeToString(imageByteArray, Base64.DEFAULT)
+            Log.d("Main Take Photo", imageAsString.toString())
+            getImageData(Image(imageByteArray.toString()))
         }
     }
     private fun imageToBitmap(image: ImageView): ByteArray {
         val bitmap = (image.drawable as BitmapDrawable).bitmap
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
-
         return stream.toByteArray()
     }
     private fun takePhoto() {
