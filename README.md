@@ -6,7 +6,7 @@ Using Computer Vision API to extract a caption and tags for photos from your gal
 
 ## Uses: 
 - Kotlin
-- Android Studio 
-- Retrofit 
+- Retrofit (API Handler)
 - Microsoft Azure Computer Vision API 
-- Picasso 
+- Picasso (Image Handler)
+- Android Studio 
